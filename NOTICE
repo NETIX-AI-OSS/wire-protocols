@@ -1,0 +1,32 @@
+NETIX Wire Protocols
+Copyright 2026 NETIX-AI
+
+This product includes software developed by NETIX-AI (https://github.com/NETIX-AI-OSS).
+
+--------------------------------------------------------------------------------
+Third-party assets bundled in this repository
+--------------------------------------------------------------------------------
+
+Archivo (static/fonts/archivo-*.woff2)
+  Copyright 2020 The Archivo Project Authors
+  https://github.com/Omnibus-Type/Archivo
+  Licensed under the SIL Open Font License, Version 1.1.
+  Full licence text: static/fonts/OFL.txt
+
+--------------------------------------------------------------------------------
+Brand assets
+--------------------------------------------------------------------------------
+
+The NETIX.AI wordmark (static/img/netix-mark.svg) is a trademark of NETIX-AI.
+It is included so this site can render its own branding, and is NOT covered by
+the Apache-2.0 licence granted over the source code. Do not use the mark to
+imply endorsement of a derivative work.
+
+--------------------------------------------------------------------------------
+Design tokens
+--------------------------------------------------------------------------------
+
+The colour, type and spacing values in static/styles.css express the NETIX
+design language, the same one used by the NETIX product frontends. They were
+re-authored for this static site; this repository takes no dependency on, and
+contains no code from, the netix-frontend package (which is AGPL-3.0-only).

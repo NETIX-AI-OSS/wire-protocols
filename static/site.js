@@ -5,6 +5,9 @@
 (function () {
   'use strict';
   var root = document.documentElement;
+  function still() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
 
   /* ---- theme ---- */
   var STORE = 'netix-wp-theme';
@@ -57,7 +60,36 @@
     var num = fig.querySelector('.stepcap .n');
     var body = fig.querySelector('.stepcap p');
     var live = fig.querySelector('[data-live]');
+    var scroller = plate.parentNode;
     var cur = 1;
+
+    /* On a narrow screen the plate scrolls, so the layer a step reveals is often
+       off to the right and the step reads as doing nothing. Scroll it into view. */
+    function bringIntoView(n) {
+      if (!scroller || !scroller.scrollWidth) return;
+      var slack = scroller.scrollWidth - scroller.clientWidth;
+      if (slack < 8) return;
+      var parts = plate.querySelectorAll('[data-layer="' + n + '"], [data-hl="' + n + '"]');
+      var box = plate.getBoundingClientRect();
+      var vb = plate.viewBox && plate.viewBox.baseVal;
+      if (!parts.length || !vb || !vb.width || !box.width) return;
+      var k = box.width / vb.width, lo = Infinity, hi = -Infinity, i, b;
+      for (i = 0; i < parts.length; i++) {
+        try { b = parts[i].getBBox(); } catch (e) { continue; }
+        if (!b || !b.width) continue;
+        if (b.x < lo) lo = b.x;
+        if (b.x + b.width > hi) hi = b.x + b.width;
+      }
+      if (lo === Infinity) return;
+      var pad = 14, at = scroller.scrollLeft, w = scroller.clientWidth;
+      var left = lo * k - pad, right = hi * k + pad, to = at;
+      if (right - left > w || left < at) to = left;
+      else if (right > at + w) to = right - w;
+      to = Math.max(0, Math.min(slack, to));
+      if (Math.abs(to - at) < 4) return;
+      if (scroller.scrollTo) scroller.scrollTo({ left: to, behavior: still() ? 'auto' : 'smooth' });
+      else scroller.scrollLeft = to;
+    }
 
     function show(n, announce) {
       cur = ((n - 1 + caps.length) % caps.length) + 1;
@@ -74,6 +106,7 @@
         body.appendChild(document.createTextNode(' ' + caps[cur - 1][1]));
       }
       if (live && announce) live.textContent = 'Step ' + cur + ' of ' + caps.length + ': ' + caps[cur - 1][0];
+      if (announce) bringIntoView(cur);
     }
 
     Array.prototype.forEach.call(pills, function (p, i) {
@@ -88,6 +121,12 @@
       if (e.key === 'ArrowRight') { show(cur + 1, true); e.preventDefault(); }
       else if (e.key === 'ArrowLeft') { show(cur - 1, true); e.preventDefault(); }
     });
+    function trackOverflow() {
+      if (scroller && scroller.scrollWidth > scroller.clientWidth + 4) fig.setAttribute('data-scrolls', '');
+      else fig.removeAttribute('data-scrolls');
+    }
+    trackOverflow();
+    window.addEventListener('resize', trackOverflow);
     show(1, false);
   });
 

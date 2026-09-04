@@ -96,7 +96,7 @@ export const AUTO = [
           <text x="200" y="234" fill="#ffffff">0</text><text x="268" y="234" fill="#ffffff">0</text>
           <text x="336" y="234" fill="#ffffff">0</text>
         </g>
-        <text x="380" y="234" class="dlab-s" fill="var(--dg-c)">dominant wins the wire</text>
+        <text x="380" y="262" class="dlab-s" fill="var(--dg-c)">dominant wins the wire</text>
       </g>
 
       <g class="dstep" data-layer="4">

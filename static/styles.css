@@ -49,6 +49,8 @@
   --radius-sm:6px; --radius-md:8px; --radius-lg:10px; --radius-xl:14px; --radius-card:20px; --radius-pill:999px;
   --motion-fast:120ms ease-out; --motion-base:220ms cubic-bezier(.2,.7,.2,1);
 
+  --dg-shadow:rgba(15,23,42,.17);
+
   --side-w:270px; --max-w:1180px;
 }
 
@@ -75,6 +77,7 @@
     --elev-2:inset 0 0 0 1px #2c3a57, 0 0 0 1px #0b0f17;
     --elev-3:0 12px 32px rgba(0,0,0,.6), inset 0 0 0 1px #36456a;
     --focus-ring:0 0 0 3px rgba(75,163,216,.55);
+    --dg-shadow:rgba(0,0,0,.55);
   }
 }
 [data-theme='dark'] {
@@ -94,11 +97,13 @@
   --elev-2:inset 0 0 0 1px #2c3a57, 0 0 0 1px #0b0f17;
   --elev-3:0 12px 32px rgba(0,0,0,.6), inset 0 0 0 1px #36456a;
   --focus-ring:0 0 0 3px rgba(75,163,216,.55);
+  --dg-shadow:rgba(0,0,0,.55);
 }
 
 /* ---------- base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px;
+       -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--surface-app); color: var(--text-primary);
   font: 400 15px/23px var(--font-sans); -webkit-font-smoothing: antialiased;
@@ -271,11 +276,39 @@ img, svg { max-width: 100%; }
 /* ---------- figure + step-through ---------- */
 .fig { padding: 24px; margin-bottom: 34px; }
 .fig-h { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 18px; flex-wrap: wrap; }
-.fig-h > div { display: flex; flex-direction: column; gap: 6px; flex: 1 1 320px; min-width: 0; }
+.fig-h > div:first-child { display: flex; flex-direction: column; gap: 6px; flex: 1 1 320px; min-width: 0; }
 .arrows { display: flex; gap: 8px; flex: none; }
-.plate { background: var(--dg-bg); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
-         padding: 20px; overflow-x: auto; }
-.plate svg { display: block; min-width: 660px; height: auto; }
+.plate { background-color: var(--dg-bg); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
+         padding: 20px; overflow-x: auto; overscroll-behavior-x: contain; scroll-behavior: smooth;
+         -webkit-overflow-scrolling: touch; }
+/* Diagrams are drawn on a 1000-unit canvas whose smallest label is 10px, so the
+   rendered label size is the width divided by 100. Past a point shrinking the
+   drawing costs more than scrolling it does, so the plate scrolls instead — the
+   same treatment the comparison table gets. */
+.plate svg { display: block; min-width: 820px; height: auto; }
+/* Scroll cue, no JS: the two `local` panels ride with the content and mask the
+   shadows at each end, so a shadow only shows where there is more to scroll to. */
+.scrollx {
+  background-image:
+    linear-gradient(to right, var(--dg-bg), transparent),
+    linear-gradient(to left, var(--dg-bg), transparent),
+    radial-gradient(farthest-side at 0 50%, var(--dg-shadow), transparent),
+    radial-gradient(farthest-side at 100% 50%, var(--dg-shadow), transparent);
+  background-position: 0 0, 100% 0, 0 0, 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 15px 100%, 15px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+.tablewrap.scrollx { background-image:
+    linear-gradient(to right, var(--surface-1), transparent),
+    linear-gradient(to left, var(--surface-1), transparent),
+    radial-gradient(farthest-side at 0 50%, var(--dg-shadow), transparent),
+    radial-gradient(farthest-side at 100% 50%, var(--dg-shadow), transparent); }
+.scrollhint { display: none; margin-bottom: 10px; }
+/* Without JS the hint tracks the breakpoint below, where the plate always
+   scrolls. With JS it tracks whether this figure actually scrolls right now. */
+html.js .scrollhint { display: none; }
+html.js [data-diagram][data-scrolls] .scrollhint { display: block; }
 .stepcap { display: flex; gap: 14px; align-items: flex-start; margin-top: 18px; padding: 15px 17px;
            background: var(--brand-100); border-radius: var(--radius-lg); }
 .stepcap .n { font: 700 11px/16px var(--font-mono); color: var(--brand-on); background: var(--brand-600);
@@ -321,7 +354,8 @@ html:not(.js) .steps, html:not(.js) .arrows, html:not(.js) .stepcap { display: n
 .pager .to-next { text-align: right; }
 
 /* ---------- compare table ---------- */
-.tablewrap { overflow-x: auto; border-radius: var(--radius-card); border: 1px solid var(--border-subtle); background: var(--surface-1); }
+.tablewrap { overflow-x: auto; overscroll-behavior-x: contain; border-radius: var(--radius-card);
+             border: 1px solid var(--border-subtle); background-color: var(--surface-1); }
 table { border-collapse: collapse; width: 100%; min-width: 900px; }
 thead th { text-align: left; padding: 12px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border-subtle);
            font: 600 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-tertiary);
@@ -374,16 +408,29 @@ svg text { font-family: var(--font-mono); }
   .foot { padding: 22px 20px; }
   .foot-in { max-width: none; }
   .scrim { position: fixed; inset: 60px 0 0 0; background: rgba(15,23,42,.45); z-index: 24; }
+  /* Phones and small tablets scroll the plate rather than shrink the drawing, so
+     it renders 1:1 with the canvas and every label is the size it was drawn at. */
+  .plate svg { min-width: 1000px; }
+  .scrollhint { display: block; }
 }
 @media (max-width: 560px) {
   .top-right .ghost span { display: none; }
   .title-row { gap: 12px; }
   .year { align-items: flex-start; padding-top: 0; }
   .stats { gap: 22px; }
-  .plate { padding: 12px; }
+  .main { padding: 26px 16px 56px; }
+  .foot { padding: 22px 16px; }
+  .fig { padding: 16px; }
+  /* Bleed the plate out to the card's inner edge: the padding it gives back is
+     diagram the reader no longer has to scroll for. */
+  .plate { margin-inline: -16px; padding: 14px 12px; border-radius: 0; border-left: 0; border-right: 0; }
+  .fig-h { gap: 14px; margin-bottom: 14px; }
+  .steps { gap: 5px; margin-bottom: 16px; }
+  .tab { padding: 7px 11px; font-size: 13px; }
+  .stepcap { padding: 13px 14px; gap: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html, .plate { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }
 

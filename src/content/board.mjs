@@ -255,8 +255,8 @@ export const BOARD = [
         <path d="M76,56 H150" class="dwire" stroke="var(--text-tertiary)"/>
         <path d="M76,156 H150" class="dwire" stroke="var(--text-tertiary)"/>
         <text x="112" y="230" class="dlab-s" text-anchor="middle">idle</text>
-        <path d="M112,44 V26" stroke="var(--dg-line)" stroke-width="1"/>
-        <text x="126" y="22" class="dlab-s">pull-ups hold both lines high</text>
+        <path d="M112,54 V42" stroke="var(--dg-line)" stroke-width="1"/>
+        <text x="126" y="48" class="dlab-s">pull-ups hold both lines high</text>
       </g>
 
       <g class="dstep" data-layer="2">
@@ -495,9 +495,9 @@ export const BOARD = [
       <g class="dstep" data-layer="1">
         <path d="M76,60 H190" class="dwire" stroke="var(--text-tertiary)"/>
         <g opacity="0.9">
-          <path d="M120,60 V34" stroke="var(--dg-line)" stroke-width="1"/>
-          <rect x="128" y="22" width="86" height="18" rx="4" fill="var(--dg-panel)"/>
-          <text x="136" y="35" class="dlab-s">4.7 k&#8486; pull-up</text>
+          <path d="M120,60 V52" stroke="var(--dg-line)" stroke-width="1"/>
+          <rect x="128" y="34" width="98" height="18" rx="4" fill="var(--dg-panel)"/>
+          <text x="136" y="47" class="dlab-s">4.7 k&#8486; pull-up</text>
         </g>
       </g>
 

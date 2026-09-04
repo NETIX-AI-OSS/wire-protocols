@@ -68,7 +68,9 @@ export function protocolPage(s) {
         <div class="steps" role="group" aria-label="Diagram steps">${pills}
         </div>
 
-        <div class="plate">
+        <p class="sm scrollhint">Scroll the diagram sideways to follow it — each step brings its own part into view.</p>
+
+        <div class="plate scrollx">
 ${s.diagram.svg}
         </div>
 

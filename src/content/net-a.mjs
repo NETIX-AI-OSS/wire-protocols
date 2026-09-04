@@ -95,7 +95,7 @@ export const NET_A = [
       </g>
 
       <g class="dstep" data-layer="6">
-        <text x="700" y="200" class="dlab-s" fill="var(--brand-700)">IPv4 exhausted 2011 &#8594; IPv6, 128-bit</text>
+        <text x="960" y="200" class="dlab-s" text-anchor="end" fill="var(--brand-700)">IPv4 exhausted 2011 &#8594; IPv6, 128-bit</text>
       </g>`),
   },
   how: [

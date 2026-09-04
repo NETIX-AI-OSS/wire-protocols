@@ -30,7 +30,7 @@ export function comparePage() {
         <div class="tabs" style="margin:24px 0 18px" role="group" aria-label="Filter by family">${tabs}
         </div>
 
-        <div class="tablewrap">
+        <div class="tablewrap scrollx">
           <table>
             <caption class="vh">Every protocol compared by wires, topology, rate, reach and delivery guarantee</caption>
             <thead>

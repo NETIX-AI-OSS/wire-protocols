@@ -50,6 +50,48 @@ for (const s of SPECS) {
 }
 if (!geo) ok(`diagram geometry — ${SPECS.length} diagrams within bounds`);
 
+/* 1b — no label lands on top of another. Layers reveal cumulatively, so two
+   labels that overlap collide as soon as the reader reaches the later step.
+   Advances are measured from the rendered pages and rounded down, and the
+   thresholds are loose, so this fires on real collisions rather than on the
+   estimate being a character out. */
+const ADV = { 'dlab-s': 5.9, dlab: 6.0, 'dlab-b': 5.8 };
+const BAND = { 'dlab-s': [9.2, 2.8], dlab: [10.1, 2.8], 'dlab-b': [10.1, 2.8] };
+let hits = 0;
+for (const s of SPECS) {
+  const labels = [];
+  const stack = [{ cls: 'dlab-s', anchor: 'start' }];
+  const tokens = s.diagram.svg.matchAll(/<(g|\/g|text)([^>]*)>([\s\S]*?)(?=<)/g);
+  for (const t of tokens) {
+    const [, tag, attrs, body] = t;
+    const top = stack[stack.length - 1];
+    if (tag === '/g') { if (stack.length > 1) stack.pop(); continue; }
+    const cls = (/class="([^"]+)"/.exec(attrs) || [, null])[1];
+    const anchor = (/text-anchor="(\w+)"/.exec(attrs) || [, null])[1];
+    const ctx = { cls: (cls || '').split(' ')[0] || top.cls, anchor: anchor || top.anchor };
+    if (tag === 'g') { stack.push(ctx); continue; }
+    const x = +(/\sx="(-?[\d.]+)"/.exec(attrs) || [, NaN])[1];
+    const y = +(/\sy="(-?[\d.]+)"/.exec(attrs) || [, NaN])[1];
+    const text = body.replace(/<[^>]+>/g, '').trim();
+    if (Number.isNaN(x) || Number.isNaN(y) || !text) continue;
+    const chars = text.replace(/&[a-z]+;|&#\d+;/g, 'x').length;
+    const w = chars * (ADV[ctx.cls] || ADV['dlab-s']);
+    const [up, down] = BAND[ctx.cls] || BAND['dlab-s'];
+    const l = ctx.anchor === 'middle' ? x - w / 2 : ctx.anchor === 'end' ? x - w : x;
+    labels.push({ text, l, r: l + w, t: y - up, b: y + down });
+  }
+  for (let i = 0; i < labels.length; i++) for (let j = i + 1; j < labels.length; j++) {
+    const a = labels[i], b = labels[j];
+    const ox = Math.min(a.r, b.r) - Math.max(a.l, b.l);
+    const oy = Math.min(a.b, b.b) - Math.max(a.t, b.t);
+    if (ox > 4 && oy > 3) {
+      hits++;
+      bad('collision', `${s.slug} "${a.text.slice(0, 24)}" over "${b.text.slice(0, 24)}" (${ox.toFixed(0)}x${oy.toFixed(0)})`);
+    }
+  }
+}
+if (!hits) ok('diagram labels — no two labels overlap');
+
 /* 2 — step layers map 1:1 onto captions */
 let sl = 0;
 for (const s of SPECS) {

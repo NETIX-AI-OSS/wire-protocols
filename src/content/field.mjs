@@ -73,7 +73,7 @@ export const FIELD = [
 
       <g class="dstep" data-layer="5">
         <line x1="600" y1="212" x2="960" y2="212" stroke="var(--dg-line-soft)"/>
-        <text x="620" y="240" class="dlab-b">DB9 &#183; DE-9 connector</text>
+        <text x="652" y="240" class="dlab-b">DB9 &#183; DE-9 connector</text>
         <path d="M628,254 h300 l-14,54 h-272 z" fill="var(--dg-panel)" stroke="var(--dg-line)" stroke-width="1.5"/>
         <g fill="#8096a3">
           <circle cx="656" cy="272" r="5"/><circle cx="700" cy="272" r="5"/><circle cx="744" cy="272" r="5"/>
@@ -328,9 +328,9 @@ export const FIELD = [
         <text x="656" y="284" class="dlab-b">Four register spaces</text>
         <g stroke="var(--dg-line)" fill="var(--dg-surface)">
           <rect x="656" y="294" width="150" height="30" rx="5"/>
-          <rect x="814" y="294" width="146" height="30" rx="5"/>
+          <rect x="814" y="294" width="156" height="30" rx="5"/>
           <rect x="656" y="330" width="150" height="30" rx="5"/>
-          <rect x="814" y="330" width="146" height="30" rx="5"/>
+          <rect x="814" y="330" width="156" height="30" rx="5"/>
         </g>
         <text x="668" y="313" class="dlab-s">Coils &#183; 1 bit &#183; R/W</text>
         <text x="826" y="313" class="dlab-s">Discrete in &#183; 1 bit &#183; R</text>

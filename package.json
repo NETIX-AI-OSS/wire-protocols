@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "An open reference to 22 hardware and network protocols, from board trace to public internet.",
   "homepage": "https://netix-ai-oss.github.io/wire-protocols",
-  "repository": { "type": "git", "url": "https://github.com/NETIX-AI-OSS/wire-protocols.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NETIX-AI-OSS/wire-protocols.git"
+  },
   "license": "Apache-2.0",
   "type": "module",
   "private": false,
@@ -12,5 +15,7 @@
     "check": "node src/build.mjs && node src/check.mjs",
     "dev": "node src/serve.mjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }

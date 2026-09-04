@@ -154,20 +154,28 @@ export function layout({ title, description, canonical, nav, active = '', up = '
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="top">
-  <button class="icon-btn menu-btn" data-menu aria-expanded="false" aria-controls="side" aria-label="Open protocol navigation">${ICON.menu}</button>
-  <a class="mark" href="${up}" aria-label="${attr(SITE.name)} home">${WORDMARK}<span class="oss">OSS</span></a>
-  <nav class="nav" aria-label="Primary">
-    ${navlink('home', 'Protocols', up || './')}
-    ${navlink('compare', 'Compare', `${up}compare/`)}
-  </nav>
-  <div class="top-right">
-    <button class="icon-btn" data-theme-toggle aria-label="Switch theme">${ICON.sun}${ICON.moon}</button>
-    <a class="ghost" href="${SITE.repo}" rel="noopener">${ICON.github}<span>${SITE.org}</span></a>
+  <div class="top-brand">
+    <button class="icon-btn menu-btn" data-menu aria-expanded="false" aria-controls="side" aria-label="Open protocol navigation">${ICON.menu}</button>
+    <a class="mark" href="${up}" aria-label="${attr(SITE.name)} home">${WORDMARK}<span class="oss">OSS</span></a>
+  </div>
+  <div class="top-rest">
+    <div class="top-rest-in">
+      <nav class="nav" aria-label="Primary">
+        ${navlink('home', 'Protocols', up || './')}
+        ${navlink('compare', 'Compare', `${up}compare/`)}
+      </nav>
+      <div class="top-right">
+        <button class="icon-btn" data-theme-toggle aria-label="Switch theme">${ICON.sun}${ICON.moon}</button>
+        <a class="ghost" href="${SITE.repo}" rel="noopener">${ICON.github}<span>${SITE.org}</span></a>
+      </div>
+    </div>
   </div>
 </header>
 
 <div class="shell">
-  <aside class="side" id="side" aria-label="All protocols">${sidebar(active, up)}
+  <aside class="side" id="side" aria-label="All protocols">
+    <div class="side-inner">${sidebar(active, up)}
+    </div>
   </aside>
   <main class="main" id="main">
     <div class="wrap">

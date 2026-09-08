@@ -509,4 +509,231 @@ export const BAS = [
     { t: 'Your sampling interval is a request', p: 'The server returns revised publishing and sampling intervals, and it is free to give you something slower. A client that logs the value it asked for rather than the value it was given will misreport its own freshness.' },
   ],
 },
+
+/* ============================== LON ============================== */
+{
+  slug: 'LON', h: 2380,
+  expand: 'LonWorks — ISO/IEC 14908, Echelon’s 1990 answer to a building full of proprietary controllers: a chip in every device, wire it however you like, and let the devices talk to each other rather than to a master.',
+  oneLine: 'LON is the most quietly radical protocol on this site. There is no master and, once it is commissioned, no supervisor either: you bind one device’s output variable to another’s input, and from that moment the two talk directly. Pull the head end out of the rack and the building carries on running.',
+  facts: [
+    ['Standard', 'ISO/IEC 14908'],
+    ['Wires', '2, free topology'],
+    ['Rate', '78 kbit/s on FT-10'],
+    ['Addressing', 'Domain / subnet / node'],
+    ['Model', 'Bound network variables'],
+  ],
+  diagram: {
+    title: 'Wire it any shape, then bind the variables and step out of the way',
+    sub: 'Two ideas carry LON. The cable may be any shape an installer finds convenient, and control lives in bindings between devices rather than in a controller above them. The cost of both is a database you must not lose.',
+    steps: [
+      { label: 'Free topology', caption: 'FT-10 does not care what shape the wire is. Bus, star, loop, or all three on one segment — an installer can spur off wherever it is convenient instead of daisy-chaining a floor in order. The budget is 500 m of wire with a single terminator; doubly terminate it as a plain bus and you get 2,700 m instead.' },
+      { label: 'The Neuron', caption: 'Historically every node was built around a Neuron chip carrying a 48-bit ID, burned in at manufacture and unique worldwide. Press the service pin and the node broadcasts that ID, which is how a commissioning tool finds a device it has never seen without anyone typing an address.' },
+      { label: 'Network variables', caption: 'Devices expose network variables, and each one has a standard type. An output called nvoSpaceTemp declared as SNVT_temp_p is a temperature in degrees Celsius with its scaling fixed by the type itself. The meaning travels with the variable, which is precisely what a Modbus register number cannot do.' },
+      { label: 'Binding', caption: 'This is the idea worth the trip. You bind the sensor’s output variable to the actuator’s input variable, once, at commissioning. After that the two devices exchange values directly, peer to peer, with nothing in the middle. No controller polls them and no supervisor has to be alive for the loop to run.' },
+      { label: 'The database', caption: 'The catch is that the bindings were made by a tool and are recorded in an LNS database that lives off the network. The devices know what they are bound to; nothing on the wire tells you why. Lose the database and you can still watch the building work, but you can no longer safely change it.' },
+    ],
+    svg: SVG(492, `
+      <g class="dstep" data-layer="1">
+        <text x="70" y="26" class="dlab-b">Free topology &#183; bus, star and loop on one segment</text>
+        <text x="70" y="66" class="dlab-s">one terminator</text>
+        <rect x="70" y="74" width="16" height="16" fill="var(--dg-c)"/>
+        <path d="M86,82 H730" class="dwire" stroke="var(--dg-a)"/>
+        <path d="M130,82 V108 M200,82 V108 M270,82 V108" stroke="var(--dg-line)" stroke-width="1.5"/>
+        <path d="M510,82 L430,124 M510,82 L510,130 M510,82 L590,124" stroke="var(--dg-line)" stroke-width="1.5"/>
+        <path d="M730,82 H890 V122 H730 Z" fill="none" stroke="var(--dg-a)" stroke-width="2"/>
+        <g fill="var(--dg-surface)" stroke="var(--dg-a)" stroke-width="2">
+          <circle cx="130" cy="108" r="7"/>
+          <circle cx="200" cy="108" r="7"/>
+          <circle cx="270" cy="108" r="7"/>
+          <circle cx="510" cy="82" r="7"/>
+          <circle cx="430" cy="124" r="7"/>
+          <circle cx="510" cy="130" r="7"/>
+          <circle cx="590" cy="124" r="7"/>
+          <circle cx="730" cy="82" r="7"/>
+          <circle cx="890" cy="82" r="7"/>
+          <circle cx="890" cy="122" r="7"/>
+          <circle cx="730" cy="122" r="7"/>
+        </g>
+        <text x="200" y="142" class="dlab-s" text-anchor="middle">bus</text>
+        <text x="510" y="154" class="dlab-s" text-anchor="middle">star</text>
+        <text x="810" y="142" class="dlab-s" text-anchor="middle">loop</text>
+        <text x="70" y="178" class="dlab-s">one segment, three shapes &#8212; FT-10 allows 500 m of free wire and asks for a single terminator</text>
+      </g>
+
+      <g class="dstep" data-layer="2">
+        <text x="70" y="210" class="dlab-b">Every node is a Neuron, with an identity burned in</text>
+        <rect x="70" y="222" width="380" height="30" rx="6" fill="var(--dg-surface)" stroke="var(--dg-line)"/>
+        <text x="86" y="241" class="dlab-s">Neuron ID &#183; 01 2A 4F 90 C3 7E</text>
+        <text x="474" y="241" class="dlab-s">48 bits, unique worldwide &#183; the service pin makes a node announce itself</text>
+      </g>
+
+      <g class="dstep" data-layer="3">
+        <text x="70" y="280" class="dlab-b">Network variables are typed, and the type carries the unit</text>
+        <rect x="70" y="292" width="420" height="48" rx="7" fill="var(--brand-100)"/>
+        <text x="86" y="312" class="dlab-s" fill="var(--brand-700)">nvoSpaceTemp &#183; SNVT_temp_p</text>
+        <text x="86" y="330" class="dlab-s" fill="var(--brand-700)">degrees Celsius, with the scaling fixed by the type</text>
+        <rect x="530" y="292" width="430" height="48" rx="7" fill="var(--dg-panel)" stroke="var(--dg-line)"/>
+        <text x="546" y="312" class="dlab-s">the Modbus equivalent &#183; register 40107</text>
+        <text x="546" y="330" class="dlab-s">a 16-bit number, and a PDF that explains it</text>
+      </g>
+
+      <g class="dstep" data-layer="4">
+        <text x="70" y="366" class="dlab-b">Bind once, and the two nodes talk with nothing in between</text>
+        <text x="436" y="384" class="dlab-s" text-anchor="middle" fill="var(--status-ok)">binding</text>
+        <rect x="70" y="390" width="150" height="42" rx="7" fill="#196796"/>
+        <text x="145" y="416" class="dlab-b" text-anchor="middle" fill="#ffffff">Sensor</text>
+        <path d="M220,411 H232" class="dwire" stroke="var(--status-ok)"/>
+        <path d="M356,411 H516" class="dwire" stroke="var(--status-ok)"/>
+        <path d="M640,411 H660" class="dwire" stroke="var(--status-ok)"/>
+        <rect x="232" y="398" width="124" height="26" rx="5" fill="var(--brand-100)" stroke="var(--brand-600)"/>
+        <text x="294" y="415" class="dlab-s" text-anchor="middle" fill="var(--brand-700)">nvoTemp</text>
+        <rect x="516" y="398" width="124" height="26" rx="5" fill="var(--brand-100)" stroke="var(--brand-600)"/>
+        <text x="578" y="415" class="dlab-s" text-anchor="middle" fill="var(--brand-700)">nviTemp</text>
+        <rect x="660" y="390" width="150" height="42" rx="7" fill="#196796"/>
+        <text x="735" y="416" class="dlab-b" text-anchor="middle" fill="#ffffff">Actuator</text>
+        <text x="826" y="415" class="dlab-s">no controller in the path</text>
+      </g>
+
+      <g class="dstep" data-layer="5">
+        <rect x="70" y="446" width="890" height="30" rx="6" fill="var(--status-warning-tint)"/>
+        <text x="86" y="465" class="dlab-s" fill="var(--status-warning-on-tint)">the bindings live in the LNS database, not on the wire &#8212; lose it and you can read the network but not safely change it</text>
+      </g>`),
+  },
+  how: [
+    { h: 'Peer-to-peer is the architecture, not an optimisation', p: 'Most protocols on this site have something in the middle: a Modbus master, a BACnet client, an OPC UA server. LON has one only while you are commissioning. A bound network variable update is sent by the producing node straight to the consuming node, so the control loop is distributed across the devices that implement it. The practical consequence is resilience — a failed head end costs you visibility and scheduling, not the building — and the practical cost is that the running logic is spread across a hundred devices instead of being written down in one place.' },
+    { h: 'Free topology is a labour-saving decision', p: 'FT-10 transceivers tolerate reflections well enough that the cable may branch anywhere, which is the difference between pulling a neat daisy chain through a finished ceiling and spurring off the nearest run. It is not unconditional: free topology means 500 m of total wire, 400 m between the two most distant nodes and exactly one terminator. Wire it as a doubly terminated bus instead and the budget changes to 2,700 m — the same transceiver, a different set of rules, and confusing the two produces a segment that works until the day someone adds a spur.' },
+    { h: 'Addressing has three levels, and only two of them are yours', p: 'A commissioned node has a domain, a subnet and a node number. The domain separates logically independent networks that share a cable; within one there are 255 subnets of 127 nodes, so a domain holds a little over 32,000 devices. The 48-bit Neuron ID underneath all of that is a manufacturing identity, not an address — it is used to find a device and assign it a real address, and then largely forgotten.' },
+  ],
+  netix: {
+    lead: 'There is no LON adapter in libs/netix-protocol-core — the crates are proto-modbus, proto-bacnet and proto-opcua. A LonWorks estate reaches a NETIX gateway through a translating router, and what that router throws away matters more here than for most protocols.',
+    points: [
+      'The usual bridge is a LON-to-BACnet router that presents each node’s network variables as BACnet objects on a BACnet/IP network, which the bacnet-ip driver in gateway-drivers then discovers exactly as it would a native controller.',
+      'The bindings do not survive the translation. What arrives is a point list; the peer-to-peer relationships that actually run the building are invisible from the NETIX side. A loop can be working perfectly while the cloud view shows a value that nothing appears to be driving — check the bindings in the LNS database before treating that as a fault.',
+      'SNVT typing survives only if the router was configured to carry it. Done properly, an analog object arrives with its units already correct; done lazily, you get raw counts and you are back to annotating tags by hand in tag-service, the same loss described on the M-Bus page.',
+    ],
+  },
+  gotchas: [
+    { t: 'The LNS database is the installation', p: 'Bindings and device configuration live in a tool database, not on the wire. Without a current backup you can watch the network run but cannot safely change it — and rebuilding one from a live network is a survey, not a restore.' },
+    { t: 'Free topology and bus wiring have different budgets', p: 'Free topology is 500 m of wire, 400 m node to node, one terminator. A doubly terminated bus is 2,700 m and two terminators. The same transceiver, two rulebooks, and a segment that mixes them works right up until someone adds a spur.' },
+    { t: 'A new node out of the box does nothing', p: 'It has a Neuron ID and no domain, no subnet or node address and no bindings. Swapping in a replacement device is a commissioning job, not a wiring job, and it needs the tool and the database to complete.' },
+    { t: 'SNVTs constrain rather than convert', p: 'Two variables can only be bound if their types match; there is no implicit conversion. And a vendor’s non-standard type is legal but only its own tool understands it, which is how an estate ends up depending on one piece of software.' },
+  ],
+},
+
+/* ============================== KNX ============================== */
+{
+  slug: 'KNX', h: 2400,
+  expand: 'KNX — ISO/IEC 14543-3, the 2002 merger of EIB, BatiBUS and EHS: a bus-powered pair, no controller, and devices that talk to a number rather than to each other.',
+  oneLine: 'KNX inverts the thing most people assume about a light switch. The switch does not know which lamp it operates and has no way to address one; it sends a value to a group address, and every device that was told to listen to that number reacts. Rewiring the building is then an edit in a project file rather than a change to the cable.',
+  facts: [
+    ['Standard', 'ISO/IEC 14543-3'],
+    ['Wires', '2, bus-powered'],
+    ['Rate', '9,600 bit/s on TP1'],
+    ['Devices', '64 per segment'],
+    ['Model', 'Group addresses'],
+  ],
+  diagram: {
+    title: 'One pair, two kinds of address, and a value sent to a number',
+    sub: 'Follow a button press across the bus. The individual address plays no part in it, the group address does all the work, and the datapoint type is the only thing making the bytes mean anything.',
+    steps: [
+      { label: 'The line', caption: 'A single twisted pair at 9,600 bit/s carries both the data and roughly 29 V of power, so most devices need no supply of their own. Up to 64 sit on a segment, wired in any shape except a ring, and the whole line runs from one power supply with a choke on it.' },
+      { label: 'Two addresses', caption: 'Every device has an individual address like 1.1.5 — area, line, device — and it is used only to program and diagnose that device. The address that matters in service is the group address, written 1/2/3, and it belongs to a function rather than to any piece of hardware.' },
+      { label: 'A value to a number', caption: 'Press the switch and it puts a value on the bus addressed to 1/2/3. It does not know what will happen. Every device configured to listen to 1/2/3 receives it and acts — three lamps and a fan here, one lamp elsewhere in the building, whatever the project says. There is no controller and no polling.' },
+      { label: 'Datapoint types', caption: 'The bus carries bytes, so both ends have to agree what they mean. DPT 1.001 is a one-bit switch; DPT 9.001 is a two-byte float holding degrees Celsius. Get this wrong and nothing errors — a value arrives, it is decoded by the wrong rule, and the number that reaches your dashboard is merely plausible.' },
+      { label: 'The project file', caption: 'Nothing on the bus records that 1/2/3 means the lamps in meeting room two. That lives in the ETS project, along with every parameter of every device. It is the single most valuable artefact in a KNX installation and the one most often missing when somebody inherits a building.' },
+    ],
+    svg: SVG(520, `
+      <g class="dstep" data-layer="1">
+        <text x="70" y="26" class="dlab-b">One twisted pair, carrying the data and the power</text>
+        <rect x="70" y="64" width="120" height="42" rx="7" fill="#196796"/>
+        <text x="130" y="90" class="dlab-b" text-anchor="middle" fill="#ffffff">PSU 29 V</text>
+        <path d="M190,85 H930" class="dwire" stroke="var(--dg-a)"/>
+        <text x="940" y="89" class="dlab-s">TP1</text>
+        <path d="M290,120 V85 M460,120 V85 M630,120 V85 M810,120 V85" stroke="var(--dg-line)" stroke-width="1.5"/>
+        <g fill="var(--dg-surface)" stroke="var(--dg-line)">
+          <rect x="230" y="120" width="120" height="46" rx="6"/>
+          <rect x="400" y="120" width="120" height="46" rx="6"/>
+          <rect x="570" y="120" width="120" height="46" rx="6"/>
+          <rect x="750" y="120" width="120" height="46" rx="6"/>
+        </g>
+        <g class="dlab-s" text-anchor="middle">
+          <text x="290" y="141">Switch</text>
+          <text x="290" y="158">1.1.5</text>
+          <text x="460" y="141">Dimmer</text>
+          <text x="460" y="158">1.1.9</text>
+          <text x="630" y="141">Actuator</text>
+          <text x="630" y="158">1.1.12</text>
+          <text x="810" y="141">Sensor</text>
+          <text x="810" y="158">1.1.20</text>
+        </g>
+        <text x="70" y="186" class="dlab-s">9,600 bit/s, up to 64 devices on a segment, every one of them powered from the pair it talks on</text>
+      </g>
+
+      <g class="dstep" data-layer="2">
+        <text x="70" y="214" class="dlab-b">Two addresses, two entirely different jobs</text>
+        <rect x="70" y="226" width="430" height="46" rx="7" fill="var(--dg-panel)" stroke="var(--dg-line)"/>
+        <text x="86" y="246" class="dlab-s">Individual &#183; 1.1.5 &#183; area . line . device</text>
+        <text x="86" y="264" class="dlab-s">used to program and diagnose, never in service</text>
+        <rect x="530" y="226" width="430" height="46" rx="7" fill="var(--brand-100)"/>
+        <text x="546" y="246" class="dlab-s" fill="var(--brand-700)">Group &#183; 1/2/3 &#183; main / middle / sub</text>
+        <text x="546" y="264" class="dlab-s" fill="var(--brand-700)">the only address that carries a value</text>
+      </g>
+
+      <g class="dstep" data-layer="3">
+        <text x="70" y="298" class="dlab-b">A switch does not address a lamp &#8212; it addresses a number</text>
+        <rect x="70" y="310" width="130" height="42" rx="7" fill="#196796"/>
+        <text x="135" y="336" class="dlab-b" text-anchor="middle" fill="#ffffff">Switch</text>
+        <path d="M200,331 H250" class="dwire" stroke="var(--dg-a)"/>
+        <path d="M370,331 H860" class="dwire" stroke="var(--brand-600)"/>
+        <path d="M500,362 V331 M660,362 V331 M820,362 V331" stroke="var(--dg-line)" stroke-width="1.5"/>
+        <rect x="250" y="317" width="120" height="28" rx="14" fill="var(--brand-600)"/>
+        <text x="310" y="336" class="dlab-b" text-anchor="middle" fill="var(--brand-on)">1/2/3</text>
+        <g fill="var(--status-ok-tint)" stroke="var(--status-ok)">
+          <rect x="430" y="362" width="140" height="34" rx="6"/>
+          <rect x="590" y="362" width="140" height="34" rx="6"/>
+          <rect x="750" y="362" width="140" height="34" rx="6"/>
+        </g>
+        <g class="dlab-s" text-anchor="middle">
+          <text x="500" y="383">Lamp 1</text>
+          <text x="660" y="383">Lamp 2</text>
+          <text x="820" y="383">Fan</text>
+        </g>
+        <text x="70" y="383" class="dlab-s">every subscriber acts at once</text>
+      </g>
+
+      <g class="dstep" data-layer="4">
+        <text x="70" y="412" class="dlab-b">The payload is typed, and both ends must agree</text>
+        <rect x="70" y="424" width="430" height="44" rx="7" fill="var(--dg-panel)" stroke="var(--dg-line)"/>
+        <text x="86" y="444" class="dlab-s">DPT 1.001 &#183; switch &#183; one bit</text>
+        <text x="86" y="462" class="dlab-s">on or off, and nothing else fits in it</text>
+        <rect x="530" y="424" width="430" height="44" rx="7" fill="var(--dg-panel)" stroke="var(--dg-line)"/>
+        <text x="546" y="444" class="dlab-s">DPT 9.001 &#183; temperature &#183; two bytes</text>
+        <text x="546" y="462" class="dlab-s">a float in degrees Celsius</text>
+      </g>
+
+      <g class="dstep" data-layer="5">
+        <rect x="70" y="480" width="890" height="30" rx="6" fill="var(--status-warning-tint)"/>
+        <text x="86" y="499" class="dlab-s" fill="var(--status-warning-on-tint)">the group addresses and every device parameter live in the ETS project file, not on the bus &#8212; no project, no safe change</text>
+      </g>`),
+  },
+  how: [
+    { h: 'A group address is a function, not a device', p: 'This is the whole design. 1/2/3 does not mean "the actuator in cupboard four"; it means "the lights in meeting room two", and any number of devices may send to it or listen to it. Adding a second switch to a room is a project edit and a download, with no new cable. Splitting one room into two is the same. The building’s behaviour is expressed in the assignment of group addresses rather than in the topology of the wire, which is why a KNX installation can be re-purposed so much more cheaply than a conventionally wired one.' },
+    { h: 'Areas, lines and the filter tables between them', p: 'A line segment holds 64 devices; repeaters take a line to four segments, line couplers join fifteen lines into an area, and a backbone joins fifteen areas — tens of thousands of devices in one installation. The couplers are not just repeaters: each holds a filter table saying which group addresses are worth passing upward. A coupler that forwards everything turns the entire installation into one broadcast domain, and at 9,600 bit/s that is a small budget to spend on traffic nobody needed.' },
+    { h: 'Bus-powered, and that is a design constraint too', p: 'The same pair carries roughly 29 V, and a device draws its operating current from it. That is why a KNX switch needs no local supply and why a line has a power budget as real as its device count. It also means the bus stays alive through a lighting-circuit failure, which is exactly what you want from the network that is supposed to tell you the lighting circuit failed.' },
+  ],
+  netix: {
+    lead: 'Like LON, KNX has no adapter in libs/netix-protocol-core. It reaches a NETIX gateway through a KNX/IP gateway configured by hand, and the quality of that hand-configuration is the whole story.',
+    points: [
+      'The usual bridge presents selected group addresses as BACnet objects or Modbus registers, picked up by the bacnet-ip or modbus-rtu / modbus-tcp drivers in gateway-drivers. Only the group addresses somebody chose to expose exist as far as NETIX is concerned.',
+      'That mapping has to come from the ETS project, because nothing else knows what 1/2/3 means. Ask for the .knxproj file rather than a spreadsheet someone transcribed — the transcription is where wrong units and stale group addresses get introduced, and neither shows up as an error.',
+      'The DPT is lost in the same way M-Bus loses its DIF/VIF: a DPT 9.001 temperature arrives as a bare number and the unit has to be re-entered as tag metadata in tag-service. Get the DPT wrong at the gateway and the value still arrives, still looks reasonable, and is wrong.',
+    ],
+  },
+  gotchas: [
+    { t: 'No ETS project, no changes', p: 'The project file is the only record of what each group address means and how every device is parameterised. Without it, modifying an installation starts with surveying it device by device.' },
+    { t: 'Both ends must agree the datapoint type', p: 'The bus carries bytes and checks nothing. Send DPT 9.001 to something expecting DPT 5.001 and no error is raised anywhere — a plausible wrong number simply appears and stays.' },
+    { t: 'Individual addresses are not for control', p: 'Addressing 1.1.5 directly works for diagnostics and is the wrong tool for operation. Couplers filter on group addresses, so point-to-point traffic crosses the installation in a way group traffic would not.' },
+    { t: 'An unfiltered coupler slows everything', p: 'A coupler passing all group addresses makes every line carry every telegram. The symptom is a bus that feels sluggish everywhere at once rather than on the line somebody changed, which sends people hunting on the wrong floor.' },
+  ],
+},
 ];

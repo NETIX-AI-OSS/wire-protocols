@@ -69,9 +69,7 @@
     --status-info:#5c9dff;     --status-info-tint:#16294d;     --status-info-on-tint:#afcbff;
     --dg-a:#56b4e9; --dg-b:#34d399; --dg-c:#fb923c; --dg-d:#d980b3;
     --dg-e:#fbbf24; --dg-f:#f0abcf; --dg-g:#7dd3fc;
-    --dg-a:#56b4e9; --dg-b:#34d399; --dg-c:#fb923c; --dg-d:#d980b3;
-  --dg-e:#fbbf24; --dg-f:#f0abcf; --dg-g:#7dd3fc;
-  --dg-surface:#1b2432; --dg-panel:#212d3f; --dg-panel-2:#26334a;
+    --dg-surface:#1b2432; --dg-panel:#212d3f; --dg-panel-2:#26334a;
     --dg-line:#3a496b; --dg-line-soft:#2a3650; --dg-inverse:#070d16; --dg-inverse-line:#26314a;
     --elev-1:inset 0 0 0 1px #26314a;
     --elev-2:inset 0 0 0 1px #2c3a57, 0 0 0 1px #0b0f17;
@@ -91,6 +89,8 @@
   --status-warning:#f59e0b;  --status-warning-tint:#3a2a0a;  --status-warning-on-tint:#fcd58a;
   --status-critical:#f0533f; --status-critical-tint:#3a1512; --status-critical-on-tint:#fca99b;
   --status-info:#5c9dff;     --status-info-tint:#16294d;     --status-info-on-tint:#afcbff;
+  --dg-a:#56b4e9; --dg-b:#34d399; --dg-c:#fb923c; --dg-d:#d980b3;
+  --dg-e:#fbbf24; --dg-f:#f0abcf; --dg-g:#7dd3fc;
   --dg-surface:#1b2432; --dg-panel:#212d3f; --dg-panel-2:#26334a;
   --dg-line:#3a496b; --dg-line-soft:#2a3650; --dg-inverse:#070d16; --dg-inverse-line:#26314a;
   --elev-1:inset 0 0 0 1px #26314a;

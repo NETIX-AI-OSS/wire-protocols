@@ -5,7 +5,7 @@ export const SITE = {
   org: 'NETIX-AI-OSS',
   repo: 'https://github.com/NETIX-AI-OSS/wire-protocols',
   base: process.env.SITE_BASE || 'https://netix-ai-oss.github.io/wire-protocols',
-  tagline: 'Twenty-six protocols, from two centimetres of board trace to the public internet — each with the diagram that actually explains it.',
+  tagline: 'Twenty-eight protocols, from two centimetres of board trace to the public internet — each with the diagram that actually explains it.',
 };
 
 export const FAMILIES = [
@@ -29,6 +29,8 @@ export const PROTOCOLS = [
   { slug: 'GPIB',      url: 'gpib',      name: 'GPIB',      fam: 'field', tag: 'Instrument bus',    year: '1965' },
   { slug: 'USB',       url: 'usb',       name: 'USB',       fam: 'field', tag: 'Host-driven',       year: '1996' },
   { slug: 'MBus',      url: 'm-bus',     name: 'M-Bus',     fam: 'bas',   tag: 'Meter readout',     year: '1991' },
+  { slug: 'LON',       url: 'lon',       name: 'LON',       fam: 'bas',   tag: 'Bound variables',   year: '1990' },
+  { slug: 'KNX',       url: 'knx',       name: 'KNX',       fam: 'bas',   tag: 'Group addressing',  year: '2002' },
   { slug: 'BACnetMSTP',url: 'bacnet-mstp', name: 'BACnet MS/TP', fam: 'bas', tag: 'Token passing',  year: '1995' },
   { slug: 'BACnetIP',  url: 'bacnet-ip', name: 'BACnet/IP', fam: 'bas',   tag: 'Objects over UDP',  year: '1999' },
   { slug: 'OPCUA',     url: 'opc-ua',    name: 'OPC UA',    fam: 'bas',   tag: 'Information model', year: '2006' },
@@ -58,6 +60,8 @@ export const HOOK = {
   GPIB: 'Stackable cables and a talker/listener model, still running calibration labs.',
   USB: 'Host-driven, packet-based, and now tunnelling display and 240 watts down one cable.',
   MBus: 'The bus that powers the meter it reads — and every value arrives tagged with its own unit.',
+  LON: 'Bind an output to an input once, and the two devices keep talking with nothing in between.',
+  KNX: 'A switch does not address a lamp. It addresses a number, and whoever subscribed reacts.',
   BACnetMSTP: 'A token circling an RS-485 pair, and one setting that decides how fast the whole trunk runs.',
   BACnetIP: 'Named objects in engineering units, found by shouting — until a router swallows the shout.',
   OPCUA: 'Not a point list but a typed graph, with the security model built in rather than bolted beside it.',
@@ -87,6 +91,8 @@ export const CMP = {
   GPIB:      ['24', 'Daisy chain, 15 max', '~1 MByte/s', '20 m total', 'Interlocked'],
   USB:       ['4+', 'Tiered star, 127', '1.5 Mbit–40 Gbit/s', '0.8 – 5 m by rate', 'ACK / NAK / STALL'],
   MBus:      ['2, non-polarised', 'Master + 250 slaves', '300 – 9,600 baud', '~1,000 m at 2,400', 'Checksum + retry'],
+  LON:       ['2, free topology', 'Peer-to-peer, 32k/domain', '78 kbit/s on FT-10', '500 m free, 2,700 m bus', 'Acknowledged or repeated'],
+  KNX:       ['2, bus-powered', 'Free topology per line', '9,600 bit/s on TP1', '1,000 m per line', 'Acknowledged per hop'],
   BACnetMSTP:['2 (RS-485)', 'Token ring, 127 masters', '9.6 k – 115.2 kbaud', '1,200 m', 'Token-ordered + retry'],
   BACnetIP:  ['n/a', 'UDP 47808 + BBMD', 'Link-limited', 'Routed, BBMD-bridged', 'Confirmed or unconfirmed'],
   OPCUA:     ['n/a', 'Sessions + pub/sub', 'Link-limited', 'Global', 'Acknowledged, sequenced'],

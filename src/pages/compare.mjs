@@ -23,7 +23,7 @@ export function comparePage() {
   const main = `      <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:8px">
         <span class="over">Reference</span>
         <h1 style="font:700 clamp(28px,3.4vw,36px)/1.1 var(--font-sans); letter-spacing:-.014em">Compare every protocol</h1>
-        <p class="p" style="max-width:74ch">The same five questions asked of all twenty-six. Rows marked <code>n/a</code> under Wires are software-layer protocols &mdash; they inherit whatever physical layer is underneath them, which is precisely the distinction people collapse when they say &ldquo;we use Modbus&rdquo;.</p>
+        <p class="p" style="max-width:74ch">The same five questions asked of all twenty-eight. Rows marked <code>n/a</code> under Wires are software-layer protocols &mdash; they inherit whatever physical layer is underneath them, which is precisely the distinction people collapse when they say &ldquo;we use Modbus&rdquo;.</p>
       </div>
 
       <div data-compare>
@@ -55,7 +55,7 @@ export function comparePage() {
 
   return layout({
     title: 'Compare',
-    description: 'All twenty-six protocols side by side: wires, topology, rate, reach and delivery guarantee.',
+    description: 'All twenty-eight protocols side by side: wires, topology, rate, reach and delivery guarantee.',
     canonical: 'compare/',
     nav: 'compare',
     up,

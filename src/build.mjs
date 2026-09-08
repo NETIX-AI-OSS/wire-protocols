@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { PROTOCOLS, SITE, metaOf, layout, esc } from './kit.mjs';
 import { BOARD } from './content/board.mjs';
 import { FIELD } from './content/field.mjs';
+import { BAS } from './content/bas.mjs';
 import { AUTO } from './content/auto.mjs';
 import { NET_A } from './content/net-a.mjs';
 import { NET_B } from './content/net-b.mjs';
@@ -15,9 +16,9 @@ import { comparePage } from './pages/compare.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
-const SPECS = [...BOARD, ...FIELD, ...AUTO, ...NET_A, ...NET_B];
+const SPECS = [...BOARD, ...FIELD, ...BAS, ...AUTO, ...NET_A, ...NET_B];
 
-/* --- integrity: the registry and the content must describe the same 22 things --- */
+/* --- integrity: the registry and the content must describe the same set --- */
 const specSlugs = SPECS.map((s) => s.slug).sort();
 const regSlugs = PROTOCOLS.map((p) => p.slug).sort();
 if (specSlugs.join() !== regSlugs.join()) {

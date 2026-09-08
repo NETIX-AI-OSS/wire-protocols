@@ -29,7 +29,7 @@
   /* Okabe–Ito, colour-blind safe. Held constant across themes, as the NETIX
      product frontends do — series identity must not shift with the theme. */
   --cat-1:#0072b2; --cat-2:#e69f00; --cat-3:#009e73; --cat-4:#cc79a7;
-  --cat-5:#56b4e9; --cat-6:#d55e00; --cat-7:#f0e442; --cat-8:#6a4c93;
+  --cat-5:#56b4e9; --cat-6:#d55e00; --cat-7:#f0e442; --cat-8:#8a63b8;
 
   /* diagram surfaces — the only diagram colours that follow the theme */
   --dg-a:#0072b2; --dg-b:#009e73; --dg-c:#d55e00; --dg-d:#a8437f;
@@ -375,9 +375,13 @@ tbody td:first-child a { display: flex; align-items: center; gap: 9px; font: 600
 
 /* ---------- SVG label classes ---------- */
 svg text { font-family: var(--font-mono); }
-.dlab   { font: 500 12px/12px var(--font-sans); fill: var(--text-secondary); }
-.dlab-s { font: 400 10px/10px var(--font-mono); fill: var(--text-tertiary); }
-.dlab-b { font: 600 12px/12px var(--font-sans); fill: var(--text-primary); }
+.dlab   { font: 500 12px/12px var(--font-sans); }
+.dlab-s { font: 400 10px/10px var(--font-mono); }
+.dlab-b { font: 600 12px/12px var(--font-sans); }
+/* :not([fill]) keeps these defaults from beating an explicit fill on the element */
+.dlab:not([fill])   { fill: var(--text-secondary); }
+.dlab-s:not([fill]) { fill: var(--text-tertiary); }
+.dlab-b:not([fill]) { fill: var(--text-primary); }
 .dwire  { stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- responsive ---------- */

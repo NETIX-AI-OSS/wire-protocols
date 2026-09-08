@@ -52,13 +52,13 @@ export const NET_B = [
           <rect x="518" y="210" width="212" height="42" rx="7" fill="var(--status-warning-tint)"/>
           <rect x="742" y="210" width="218" height="42" rx="7" fill="var(--status-critical-tint)"/>
         </g>
-        <text x="86" y="228" class="dlab-b" fill="var(--status-ok)">2xx succeeded</text>
+        <text x="86" y="228" class="dlab-b" fill="var(--status-ok-on-tint)">2xx succeeded</text>
         <text x="86" y="245" class="dlab-s" fill="var(--status-ok-on-tint)">200 OK &#183; 201 Created</text>
-        <text x="310" y="228" class="dlab-b" fill="var(--status-info)">3xx go elsewhere</text>
+        <text x="310" y="228" class="dlab-b" fill="var(--status-info-on-tint)">3xx go elsewhere</text>
         <text x="310" y="245" class="dlab-s" fill="var(--status-info-on-tint)">301 Moved &#183; 304 Not Modified</text>
         <text x="534" y="228" class="dlab-b" fill="var(--status-warning-on-tint)">4xx caller is wrong</text>
         <text x="534" y="245" class="dlab-s" fill="var(--status-warning-on-tint)">400 &#183; 401 &#183; 403 &#183; 404 &#183; 429</text>
-        <text x="758" y="228" class="dlab-b" fill="var(--status-critical)">5xx server is wrong</text>
+        <text x="758" y="228" class="dlab-b" fill="var(--status-critical-on-tint)">5xx server is wrong</text>
         <text x="758" y="245" class="dlab-s" fill="var(--status-critical-on-tint)">500 &#183; 502 &#183; 503 &#183; 504</text>
       </g>
 
@@ -187,7 +187,7 @@ export const NET_B = [
       <g class="dstep" data-layer="5">
         <rect x="180" y="304" width="560" height="40" rx="7" fill="var(--dg-inverse)"/>
         <text x="200" y="322" class="dlab-s" fill="#7bc0ea">encrypted + authenticated records</text>
-        <text x="200" y="338" class="dlab-s" fill="#4b5d68">a7 3f 91 e2 0c bb 45 &#8230; tampering is detected, not just hidden</text>
+        <text x="200" y="338" class="dlab-s" fill="#a6b6bf">a7 3f 91 e2 0c bb 45 &#8230; tampering is detected, not just hidden</text>
       </g>
 
       <g class="dstep" data-layer="6">

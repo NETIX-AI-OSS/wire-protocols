@@ -5,6 +5,8 @@ const LADDER = [
     p: ['UART', 'SPI', 'I2C', 'I3C', 'OneWire'], c: 'var(--cat-1)' },
   { k: 'Fieldbus', d: 'The plant floor. Long runs, electrical noise, equipment older than the estate.',
     p: ['RS232', 'RS485', 'Modbus', 'Profibus', 'GPIB', 'USB'], c: 'var(--cat-3)' },
+  { k: 'Building & industrial', d: 'Above the copper. Named objects, engineering units and discovery, so a point can say what it is without a vendor PDF.',
+    p: ['MBus', 'BACnetMSTP', 'BACnetIP', 'OPCUA'], c: 'var(--cat-8)' },
   { k: 'In-vehicle', d: 'A parallel stack, not a rung of this one. Kept here because the deadlines are harder and the answers are instructive.',
     p: ['CAN', 'LIN', 'FlexRay'], c: 'var(--cat-2)' },
   { k: 'Gateway', d: 'Drivers poll the bus and republish. This is where the two halves meet.',
@@ -62,8 +64,8 @@ export function homePage() {
             <a class="ghost" style="padding:12px 18px" href="${SITE.repo}" rel="noopener">${ICON.github}<span>Source on GitHub</span></a>
           </div>
           <div class="stats">
-            <div class="stat"><b>22</b><span class="cap">protocols</span></div>
-            <div class="stat"><b>5</b><span class="cap">layers of the stack</span></div>
+            <div class="stat"><b>${PROTOCOLS.length}</b><span class="cap">protocols</span></div>
+            <div class="stat"><b>${LADDER.length}</b><span class="cap">layers of the stack</span></div>
             <div class="stat"><b>1960&ndash;2016</b><span class="cap">still all in service</span></div>
           </div>
         </div>
@@ -88,7 +90,7 @@ export function homePage() {
         <div style="display:flex; align-items:flex-end; gap:20px; flex-wrap:wrap">
           <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 260px">
             <span class="over">Directory</span>
-            <h2 class="h2"><span data-count>22</span> protocols</h2>
+            <h2 class="h2"><span data-count>${PROTOCOLS.length}</span> protocols</h2>
           </div>
           <label class="search">
             <span style="color:var(--text-tertiary); display:flex">${ICON.search}</span>

@@ -1,6 +1,6 @@
 # Wire Protocols
 
-An open reference to the twenty-two protocols that carry data from a sensor on a
+An open reference to the twenty-six protocols that carry data from a sensor on a
 plant floor to a number on a screen — each one with the diagram that actually
 explains it, written for engineers who have to make them talk to each other.
 
@@ -14,6 +14,7 @@ Published by [NETIX-AI-OSS](https://github.com/NETIX-AI-OSS).
 | --- | --- |
 | On-board buses | UART · SPI · I²C · I3C · 1-Wire |
 | Serial & fieldbus | RS-232 · RS-485 · Modbus · Profibus · GPIB · USB |
+| Building & industrial | M-Bus · BACnet MS/TP · BACnet/IP · OPC UA |
 | In-vehicle | CAN · LIN · FlexRay |
 | Internet | IP · TCP · UDP · DNS · HTTP · HTTPS · MQTT · WebSocket |
 
@@ -45,7 +46,7 @@ src/
   check.mjs        post-build verification, also the CI gate
   kit.mjs          protocol registry, page shell, escaping
   serve.mjs        local preview server
-  content/*.mjs    the 22 protocol specs, one module per family
+  content/*.mjs    the 26 protocol specs, one module per family
   pages/*.mjs      home, compare, protocol templates
 static/            copied verbatim into dist/ — CSS, JS, fonts, the mark
 ```

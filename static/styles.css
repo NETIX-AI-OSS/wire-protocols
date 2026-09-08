@@ -29,7 +29,7 @@
   /* Okabe–Ito, colour-blind safe. Held constant across themes, as the NETIX
      product frontends do — series identity must not shift with the theme. */
   --cat-1:#0072b2; --cat-2:#e69f00; --cat-3:#009e73; --cat-4:#cc79a7;
-  --cat-5:#56b4e9; --cat-6:#d55e00; --cat-7:#f0e442; --cat-8:#6a4c93;
+  --cat-5:#56b4e9; --cat-6:#d55e00; --cat-7:#f0e442; --cat-8:#8a63b8;
 
   /* diagram surfaces — the only diagram colours that follow the theme */
   --dg-a:#0072b2; --dg-b:#009e73; --dg-c:#d55e00; --dg-d:#a8437f;

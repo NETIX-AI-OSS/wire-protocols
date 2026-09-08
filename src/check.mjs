@@ -5,13 +5,14 @@ import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BOARD } from './content/board.mjs';
 import { FIELD } from './content/field.mjs';
+import { BAS } from './content/bas.mjs';
 import { AUTO } from './content/auto.mjs';
 import { NET_A } from './content/net-a.mjs';
 import { NET_B } from './content/net-b.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
-const SPECS = [...BOARD, ...FIELD, ...AUTO, ...NET_A, ...NET_B];
+const SPECS = [...BOARD, ...FIELD, ...BAS, ...AUTO, ...NET_A, ...NET_B];
 const fail = [];
 const ok = (label) => console.log(`  ok    ${label}`);
 const bad = (label, detail) => { fail.push(`${label}: ${detail}`); console.log(`  FAIL  ${label} — ${detail}`); };

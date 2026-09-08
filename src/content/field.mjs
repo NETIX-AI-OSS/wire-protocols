@@ -297,9 +297,9 @@ export const FIELD = [
         <rect x="580" y="164" width="104" height="52" rx="7" fill="none" stroke="var(--status-ok)" stroke-width="2"/>
         <text x="632" y="238" class="dlab-s" text-anchor="middle" fill="var(--status-ok)">match &#8594; answers</text>
         <g fill="#8096a3" opacity="0.7">
-          <text x="312" y="238" class="dlab-s" text-anchor="middle">&#8800; discard</text>
-          <text x="472" y="238" class="dlab-s" text-anchor="middle">&#8800; discard</text>
-          <text x="792" y="238" class="dlab-s" text-anchor="middle">&#8800; discard</text>
+          <text x="312" y="238" class="dlab-s" text-anchor="middle" fill="#8096a3">&#8800; discard</text>
+          <text x="472" y="238" class="dlab-s" text-anchor="middle" fill="#8096a3">&#8800; discard</text>
+          <text x="792" y="238" class="dlab-s" text-anchor="middle" fill="#8096a3">&#8800; discard</text>
         </g>
       </g>
 
@@ -450,9 +450,9 @@ export const FIELD = [
           <rect x="618" y="298" width="200" height="26" rx="5" fill="#0072b2" opacity="0.35"/>
           <rect x="822" y="298" width="26" height="26" rx="5" fill="#e69f00"/>
         </g>
-        <text x="250" y="316" class="dlab-s" text-anchor="middle" fill="#ffffff">M1 slave cycle</text>
-        <text x="484" y="316" class="dlab-s" text-anchor="middle" fill="#ffffff">M2 slave cycle</text>
-        <text x="718" y="316" class="dlab-s" text-anchor="middle" fill="#ffffff">M3 slave cycle</text>
+        <text x="250" y="316" class="dlab-s" text-anchor="middle" fill="var(--text-primary)">M1 slave cycle</text>
+        <text x="484" y="316" class="dlab-s" text-anchor="middle" fill="var(--text-primary)">M2 slave cycle</text>
+        <text x="718" y="316" class="dlab-s" text-anchor="middle" fill="var(--text-primary)">M3 slave cycle</text>
         <path d="M150,338 H848" stroke="var(--status-ok)" stroke-width="1.5"/>
         <path d="M150,332 v12 M848,332 v12" stroke="var(--status-ok)" stroke-width="1.5"/>
         <text x="499" y="356" class="dlab-s" text-anchor="middle" fill="var(--status-ok)">worst-case rotation time is bounded &#8212; so the arrival time is a calculation, not a hope</text>

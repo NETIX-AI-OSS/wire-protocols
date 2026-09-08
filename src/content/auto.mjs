@@ -227,7 +227,7 @@ export const AUTO = [
         <text x="296" y="343" class="dlab-s" text-anchor="middle">Mirror</text>
         <path d="M254,318 V354 M338,318 V354 M296,352 V354" stroke="var(--dg-line)"/>
         <path d="M198,317 H70 M70,317 V317" class="dwire" stroke="var(--dg-e)"/>
-        <text x="416" y="300" class="dlab-s" fill="var(--dg-e)">one node bridges to the CAN backbone</text>
+        <text x="416" y="300" class="dlab-s" fill="var(--status-warning-on-tint)">one node bridges to the CAN backbone</text>
         <path d="M400,322 H470" class="dwire" stroke="var(--dg-e)"/>
         <rect x="470" y="304" width="128" height="36" rx="7" fill="#e69f00"/>
         <text x="534" y="327" class="dlab-s" text-anchor="middle" fill="#2a1a03">CAN backbone</text>

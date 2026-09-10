@@ -116,7 +116,7 @@ export const BAS = [
     { h: 'Two addressing schemes, and you will need the second', p: 'Primary addressing uses a single byte, 1 to 250, set at commissioning — fast, but meters ship with defaults that collide the moment two of them share a bus. Secondary addressing selects a device by its eight-digit fabrication number together with manufacturer, version and medium codes, with wildcards allowed, so a master can enumerate a bus it has never seen. Every real deployment ends up using secondary addressing to discover and primary addressing to poll.' },
   ],
   netix: {
-    lead: 'M-Bus is not one of the protocol adapters in libs/netix-protocol-core — the Rust crates there are proto-modbus, proto-bacnet and proto-opcua. M-Bus meters reach a NETIX gateway through a converter, and knowing that changes how you commission them.',
+    lead: 'M-Bus meters reach a NETIX gateway through a level converter that presents the bus as Modbus, and knowing that changes how you commission them.',
     points: [
       'An M-Bus level converter with a Modbus interface is the usual bridge: it owns the 36 V bus and the polling loop, and exposes each meter reading as holding registers that gateway-drivers picks up with the modbus-rtu or modbus-tcp driver.',
       'That bridge throws away the self-description. The DIF/VIF pair that told you a value was energy in kWh becomes an anonymous 16-bit register pair, so the unit and the scaling have to be re-entered by hand as tag metadata in tag-service — read the converter’s mapping table before trusting a number.',
@@ -251,7 +251,7 @@ export const BAS = [
     { h: 'Above the token, it is ordinary BACnet', p: 'Once a frame has the bus, everything inside it is the same BACnet you would see on a BACnet/IP capture: the same objects, the same ReadProperty and WriteProperty services, the same priority array. This is the point of the split, and it is why a BACnet router can join an MS/TP trunk to an IP network without translating anything at the application layer — it re-frames the NPDU and forwards it.' },
   ],
   netix: {
-    lead: 'There is no MS/TP adapter in libs/netix-protocol-core — proto-bacnet speaks BACnet/IP. An MS/TP trunk reaches a NETIX gateway through a BACnet router, and that indirection is worth understanding before you blame the gateway for slow data.',
+    lead: 'An MS/TP trunk reaches a NETIX gateway through a BACnet router, which presents it to proto-bacnet as ordinary BACnet/IP. That indirection is worth understanding before you blame the gateway for slow data.',
     points: [
       'The router presents each MS/TP device on the trunk as an ordinary BACnet/IP device with its own network number, so the bacnet-ip driver in gateway-drivers discovers and polls it exactly as it would a native IP controller.',
       'What the router cannot hide is the token. A ReadPropertyMultiple issued in milliseconds still waits for the trunk’s rotation, so a poll interval shorter than the rotation time simply queues — pick the interval from the trunk, not from what the dashboard would like.',
@@ -605,7 +605,7 @@ export const BAS = [
     { h: 'Addressing has three levels, and only two of them are yours', p: 'A commissioned node has a domain, a subnet and a node number. The domain separates logically independent networks that share a cable; within one there are 255 subnets of 127 nodes, so a domain holds a little over 32,000 devices. The 48-bit Neuron ID underneath all of that is a manufacturing identity, not an address — it is used to find a device and assign it a real address, and then largely forgotten.' },
   ],
   netix: {
-    lead: 'There is no LON adapter in libs/netix-protocol-core — the crates are proto-modbus, proto-bacnet and proto-opcua. A LonWorks estate reaches a NETIX gateway through a translating router, and what that router throws away matters more here than for most protocols.',
+    lead: 'A LonWorks estate reaches a NETIX gateway through a translating router, and what that router carries across matters more here than for most protocols.',
     points: [
       'The usual bridge is a LON-to-BACnet router that presents each node’s network variables as BACnet objects on a BACnet/IP network, which the bacnet-ip driver in gateway-drivers then discovers exactly as it would a native controller.',
       'The bindings do not survive the translation. What arrives is a point list; the peer-to-peer relationships that actually run the building are invisible from the NETIX side. A loop can be working perfectly while the cloud view shows a value that nothing appears to be driving — check the bindings in the LNS database before treating that as a fault.',
@@ -722,7 +722,7 @@ export const BAS = [
     { h: 'Bus-powered, and that is a design constraint too', p: 'The same pair carries roughly 29 V, and a device draws its operating current from it. That is why a KNX switch needs no local supply and why a line has a power budget as real as its device count. It also means the bus stays alive through a lighting-circuit failure, which is exactly what you want from the network that is supposed to tell you the lighting circuit failed.' },
   ],
   netix: {
-    lead: 'Like LON, KNX has no adapter in libs/netix-protocol-core. It reaches a NETIX gateway through a KNX/IP gateway configured by hand, and the quality of that hand-configuration is the whole story.',
+    lead: 'Like LON, KNX reaches a NETIX gateway through a KNX/IP gateway configured by hand, and the quality of that hand-configuration is the whole story.',
     points: [
       'The usual bridge presents selected group addresses as BACnet objects or Modbus registers, picked up by the bacnet-ip or modbus-rtu / modbus-tcp drivers in gateway-drivers. Only the group addresses somebody chose to expose exist as far as NETIX is concerned.',
       'That mapping has to come from the ETS project, because nothing else knows what 1/2/3 means. Ask for the .knxproj file rather than a spreadsheet someone transcribed — the transcription is where wrong units and stale group addresses get introduced, and neither shows up as an error.',

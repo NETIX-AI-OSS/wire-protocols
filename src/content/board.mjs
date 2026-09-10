@@ -446,14 +446,6 @@ export const BOARD = [
     { h: 'Push-pull is where the speed comes from', p: 'I²C’s speed ceiling is a physics problem: open-drain outputs can only pull down, so the rising edge is an RC curve set by the pull-up. I3C drives push-pull for most of the transfer, squaring the edges and lifting standard-mode signalling to 12.5 MHz while drawing less power.' },
     { h: 'In-band interrupts change the wiring, not just the protocol', p: 'A sensor may drive SDA low while the bus is idle to request service, and simultaneous requests arbitrate by address exactly as a bus should. That single feature deletes a wire per interrupting sensor, cuts chip pin counts, and is why I3C is becoming standard in mobile devices and wearables.' },
   ],
-  netix: {
-    lead: 'I3C is not yet in NETIX gateway hardware — it is a mobile and wearable technology first — but the pattern it fixes is one worth recognising, because the same mistake appears at plant scale.',
-    points: [
-      'The I²C interrupt problem is the board-level version of polling a fieldbus: asking every device whether anything changed, rather than letting devices report changes themselves.',
-      'That is exactly the trade MQTT makes at the top of the stack — see the pub/sub model on the MQTT page, which solves the same problem four layers up.',
-      'Worth tracking for future gateway sensor boards: a design with more than a handful of interrupting sensors is where the pin savings start to matter.',
-    ],
-  },
   gotchas: [
     { t: 'Not a drop-in for every I²C part', p: 'Devices with clock stretching or certain reserved addresses cannot join a mixed bus. Check the compatibility table, not the marketing.' },
     { t: 'Addresses become dynamic', p: 'I3C assigns addresses at runtime. Firmware that hard-codes a static address needs rework.' },

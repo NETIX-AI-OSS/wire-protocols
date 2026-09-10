@@ -55,7 +55,11 @@ static/            copied verbatim into dist/ — CSS, JS, fonts, the mark
 
 1. Edit the spec in the relevant `src/content/*.mjs`. A spec is a plain object:
    `expand`, `oneLine`, five `facts`, a `diagram` (title, sub, `steps`, `svg`),
-   two or three `how` blocks, a `netix` note and four `gotchas`.
+   two or three `how` blocks, four `gotchas`, and optionally a `netix` note.
+   Only add a `netix` note where NETIX genuinely carries the protocol, natively
+   or through a converter — omit the key entirely otherwise, and the section is
+   left off the page. The reference covers every protocol; the deployment note
+   does not.
 2. If it is a new protocol, add it to `PROTOCOLS` and `CMP` in `src/kit.mjs`.
 3. Run `npm run check`. It fails the build on a clipped diagram, a label running
    past the viewBox, a step layer with no caption, a broken internal link, or a

@@ -469,11 +469,11 @@ export const FIELD = [
     { h: 'Two roles, cleanly separated', p: 'Masters own the token and initiate; slaves are I/O devices that only ever respond. This keeps the deterministic guarantee intact, because a slave can never inject unscheduled traffic. It also means adding I/O does not change the timing analysis, while adding a master does.' },
   ],
   netix: {
-    lead: 'Profibus is not natively supported in the NETIX protocol core — proto-bacnet and proto-modbus are the adapters that exist today. In deployments it appears as an upstream network that a PLC already owns.',
+    lead: 'Profibus reaches a NETIX gateway through the controller that already owns the segment: the PLC exposes the process data over Modbus TCP or BACnet, and the gateway takes it from there rather than joining the ring.',
     points: [
-      'The usual integration is indirect: the Profibus segment terminates at a PLC, and the gateway takes data from that PLC over Modbus TCP or BACnet rather than joining the Profibus ring.',
+      'The usual integration point is the PLC that terminates the segment; where no PLC is in the path, a Profibus-to-Modbus protocol gateway appliance in front of the NETIX gateway does the same job.',
       'That boundary is deliberate. Joining a deterministic control network with a polling gateway risks the timing guarantee the plant was engineered around.',
-      'If a site asks for direct Profibus ingest, the honest answer is a protocol gateway appliance in front of the NETIX gateway, not a new adapter.',
+      'Either way, ask for the GSD files and the PLC’s data-block map early. That mapping is what turns a Profibus slave’s process image into named tags, and reconstructing it from a live scan afterwards is far slower.',
     ],
   },
   gotchas: [
@@ -585,14 +585,6 @@ export const FIELD = [
     { h: 'Roles are assigned, not negotiated', p: 'The brilliant talker, listener and controller model means the bus never has to resolve a conflict. The controller asserts an attention line, names one talker and any number of listeners, then releases the bus so the data flows directly between the instruments without passing through the computer.' },
     { h: 'Interlocked handshake, no timing assumptions', p: 'Because every byte is acknowledged by all listeners before the next is sent, the bus self-regulates to the slowest participant. There is no baud rate to configure and no buffer to overrun — a property that ages remarkably well when the instruments on one bus were built thirty years apart.' },
   ],
-  netix: {
-    lead: 'GPIB is out of scope for a NETIX gateway — it is a laboratory bus, not a building or plant one — but it is worth knowing when a calibration lab appears inside a facilities estate.',
-    points: [
-      'Where a site has a metrology or calibration room, its instruments are frequently on GPIB and are not candidates for NETIX ingest.',
-      'The integration path, when one is genuinely needed, is a bench PC with a GPIB-to-USB adapter publishing to MQTT — not a gateway driver.',
-      'Its role-assignment model is a useful contrast with Modbus: both avoid collisions, one by assigning roles, the other by permitting only one master.',
-    ],
-  },
   gotchas: [
     { t: 'Total cable length is the hard limit', p: 'Twenty metres across the whole chain, and two metres per device. Stacking far-apart instruments quietly breaks it.' },
     { t: 'Addresses are set with DIP switches', p: 'Physical switches on the instrument rear panel. Two instruments on the same address produce silent, undebuggable corruption.' },

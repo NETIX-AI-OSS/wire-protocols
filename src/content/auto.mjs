@@ -135,14 +135,6 @@ export const AUTO = [
     { h: 'Messages are addressed by content, not destination', p: 'A CAN frame carries no destination address. It carries an identifier describing what the message is — engine RPM, wheel speed — and every node decides for itself whether it cares. Adding a new module that needs wheel speed requires no change to the module that transmits it.' },
     { h: 'Built to be assumed faulty', p: 'Every node counts its own transmit and receive errors and progressively removes itself from the bus as those counters climb: error-active, then error-passive, then bus-off. A failing module quiets itself rather than jamming the network for everyone else, which is a large part of why CAN is one of the most battle-tested protocols ever built.' },
   ],
-  netix: {
-    lead: 'CAN is not a building-automation bus, so it is outside the normal NETIX gateway scope — but it appears in vehicle-adjacent estates, and one of its ideas is worth stealing.',
-    points: [
-      'Where a facility runs a fleet — refrigeration units, generators, lifts with CAN-based controllers — the integration point is the vendor telematics unit, not the CAN bus itself.',
-      'Content-based addressing is the same idea as an MQTT topic: publishers describe what a message is, subscribers decide whether they want it. CAN got there in 1983.',
-      'Its self-removal on error is a discipline worth copying in drivers: a driver that cannot read a device should back off and report degraded, not retry hard enough to starve the rest of the poll loop.',
-    ],
-  },
   gotchas: [
     { t: 'ID assignment is a priority decision', p: 'Choosing identifiers by convenience rather than urgency can starve a critical message under bus load.' },
     { t: 'Termination is 120 Ω at both ends', p: 'Same discipline as RS-485. A missing terminator produces errors that rise with bus load.' },
@@ -243,14 +235,6 @@ export const AUTO = [
     { h: 'A schedule, not a bus fight', p: 'The master runs a fixed schedule table, sending one header per slot. There is no arbitration and no collision handling because there can be no collisions — a slave transmits only into the response slot of a frame whose ID it owns.' },
     { h: 'It exists so CAN does not have to be everywhere', p: 'A car has a hierarchy of networks and the skill is putting each function on the cheapest one that meets its requirement. LIN sits at the bottom of that hierarchy: local, slow, cheap, and bridged into CAN by a single node when the rest of the car needs to know.' },
   ],
-  netix: {
-    lead: 'LIN does not appear in NETIX deployments, but its architectural argument does — and it is one facilities teams under-use.',
-    points: [
-      'The tiering principle transfers directly: put low-value, low-rate points on the cheapest medium that will carry them, and bridge upward at one point rather than running everything back to the head end.',
-      'This is exactly the role a NETIX gateway plays in a building — a local bus concentrator that presents one aggregated interface upward rather than 200 individual ones.',
-      'When a site quotes for running new high-spec cable to every sensor, the LIN question is worth asking: does this point actually need that medium, or does it need a local concentrator?',
-    ],
-  },
   gotchas: [
     { t: 'The schedule is the contract', p: 'Response slots are sized in advance. A slave that answers late corrupts the following frame, not just its own.' },
     { t: 'Two checksum versions exist', p: 'Classic covers data only; enhanced includes the PID. Mixing them across a bus produces silent, intermittent failures.' },
@@ -351,14 +335,6 @@ export const AUTO = [
     { h: 'Determinism is bought with flexibility', p: 'The price of a fixed schedule is that adding a node means recomputing and reflashing the schedule across the network. This is entirely acceptable in a vehicle programme, where the node set is frozen years before production, and entirely unacceptable in a building, where devices are added on a Tuesday.' },
     { h: 'Two channels, two different uses', p: 'FlexRay is dual-channel, and a designer chooses per function what that means: mirror every frame on both channels so a severed cable changes nothing, or run different traffic on each and double the bandwidth. Drive-by-wire functions take redundancy; that is what justifies the cost.' },
   ],
-  netix: {
-    lead: 'FlexRay has no place in a building or plant deployment — but it is the clearest illustration of a trade NETIX makes constantly, in the opposite direction.',
-    points: [
-      'FlexRay buys hard guarantees by freezing the device set. A NETIX gateway does the reverse: it assumes devices appear, disappear and get replaced, and it accepts soft timing in exchange.',
-      'That is why telemetry is timestamped at the edge and why data-service treats arrival order as unreliable — the guarantee FlexRay provides is one an IoT path deliberately declines to make.',
-      'When a customer asks for "real-time" data, this page is the useful conversation: real-time in the FlexRay sense is a scheduling property, not a speed.',
-    ],
-  },
   gotchas: [
     { t: 'The schedule is a build artefact', p: 'Slot assignment is generated by tooling and flashed into every node. There is no runtime discovery.' },
     { t: 'Clock sync is a single point of dependency', p: 'Sync nodes are special. Lose enough of them and the cluster cannot form a schedule at all.' },

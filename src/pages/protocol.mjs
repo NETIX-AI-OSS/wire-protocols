@@ -23,8 +23,16 @@ export function protocolPage(s) {
   const warns = s.gotchas.map((g) => `
           <div class="warn-i">${ICON.alert}<div><b>${esc(g.t)}</b><span class="sm">${esc(g.p)}</span></div></div>`).join('');
 
-  const pts = s.netix.points.map((p) => `
-          <li>${esc(p)}</li>`).join('');
+  // Only protocols NETIX carries — directly or through a converter — get a deployment note.
+  const netix = !s.netix ? '' : `
+      <section class="netix">
+        <div class="netix-h">${ICON.node}<span class="over">In a NETIX deployment</span></div>
+        <p>${esc(s.netix.lead)}</p>
+        <ul>${s.netix.points.map((p) => `
+          <li>${esc(p)}</li>`).join('')}
+        </ul>
+      </section>
+`;
 
   const stepsJson = attr(JSON.stringify(s.diagram.steps.map((st) => [st.label, st.caption])));
 
@@ -88,14 +96,7 @@ ${s.diagram.svg}
           <span class="over">Watch out for</span>${warns}
         </aside>
       </div>
-
-      <section class="netix">
-        <div class="netix-h">${ICON.node}<span class="over">In a NETIX deployment</span></div>
-        <p>${esc(s.netix.lead)}</p>
-        <ul>${pts}
-        </ul>
-      </section>
-
+${netix}
       <nav class="pager" aria-label="Adjacent protocols">
         ${prev ? `<a class="card" href="${up}${prev.url}/"><span class="cap">&larr; Previous</span><b>${esc(prev.name)}</b></a>` : '<span style="flex:1"></span>'}
         ${next ? `<a class="card to-next" href="${up}${next.url}/"><span class="cap">Next &rarr;</span><b>${esc(next.name)}</b></a>` : '<span style="flex:1"></span>'}

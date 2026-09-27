@@ -9,6 +9,7 @@ import { BAS } from './content/bas.mjs';
 import { AUTO } from './content/auto.mjs';
 import { NET_A } from './content/net-a.mjs';
 import { NET_B } from './content/net-b.mjs';
+import { metaOf, SITE } from './kit.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
@@ -140,11 +141,20 @@ if (!markup) ok(`markup — ${html.length} pages: titles, descriptions, one h1, 
 
 /* 5 — every protocol page is reachable from the index */
 const index = readFileSync(join(DIST, 'index.html'), 'utf8');
-const unreachable = SPECS.filter((s) => {
-  const u = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
-  return !u.includes(`/${s.slug.toLowerCase()}`) && !index.includes('data-fam');
-});
-if (!unreachable.length) ok('reachability — every protocol is linked from the index and sitemap');
+const sitemap = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
+let unreachable = 0;
+for (const spec of SPECS) {
+  const path = `${metaOf(spec.slug).url}/`;
+  if (!index.includes(`href="${path}"`)) {
+    unreachable++;
+    bad('reachability', `${spec.slug} is missing from the index`);
+  }
+  if (!sitemap.includes(`<loc>${SITE.base}/${path}</loc>`)) {
+    unreachable++;
+    bad('reachability', `${spec.slug} is missing from the sitemap`);
+  }
+}
+if (!unreachable) ok('reachability — every protocol is linked from the index and sitemap');
 
 console.log('');
 if (fail.length) { console.error(`${fail.length} check(s) failed`); process.exit(1); }
